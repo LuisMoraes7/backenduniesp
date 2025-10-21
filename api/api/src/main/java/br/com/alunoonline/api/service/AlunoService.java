@@ -26,4 +26,26 @@ public class AlunoService {
         alunoRepository.findById(id);
         return Optional.empty();
     }
+
+    public void deletarAlunoPorId(Long id){
+        alunoRepository.deleteById(id);
+    }
+
+    public void atualizarAlunoPorId(Long id, Aluno alunoAtualizado){
+
+        Optional<Aluno> alunoDoBanco = buscarAlunoPorId(id);
+
+        if (alunoDoBanco.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado no banco de dados.");
+        }
+
+        Aluno alunoParaEditar = alunoDoBanco.get();
+
+        alunoParaEditar.setNomeCompleto(alunoAtualizado.getNomeCompleto());
+        alunoParaEditar.setCpf(alunoAtualizado.getCpf());
+        alunoParaEditar.setEmail(alunoAtualizado.getEmail());
+        
+        
+    }
 }
+
